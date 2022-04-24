@@ -1,11 +1,13 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class MovieCreateDto {
+  @IsNotEmpty()
   @IsString()
-  readonly title: string;
+  readonly title!: string;
 
+  @IsNotEmpty()
   @IsNumber()
-  readonly year: number;
+  readonly year!: number;
 
   @IsString({ each: true })
   @IsOptional()
