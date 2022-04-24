@@ -63,7 +63,11 @@ describe('AppController (e2e)', () => {
         .expect(201);
     });
 
-    it('/movies/1 (PATCH : 404)', () => {
+    it('/movies/1 (GET : 200)', () => {
+      return request(app.getHttpServer()).get('/movies/1').expect(200);
+    });
+
+    it('/movies/1 (PATCH : 200)', () => {
       return request(app.getHttpServer())
         .patch('/movies/1')
         .send({
@@ -72,8 +76,21 @@ describe('AppController (e2e)', () => {
         .expect(200);
     });
 
-    it('/movies/1 (DELETE : 404)', () => {
+    it('/movies/2 (PATCH : 404)', () => {
+      return request(app.getHttpServer())
+        .patch('/movies/2')
+        .send({
+          title: 'test(updated)',
+        })
+        .expect(404);
+    });
+
+    it('/movies/1 (DELETE : 200)', () => {
       return request(app.getHttpServer()).delete('/movies/1').expect(200);
+    });
+
+    it('/movies/2 (DELETE : 404)', () => {
+      return request(app.getHttpServer()).delete('/movies/2').expect(404);
     });
   });
 });
