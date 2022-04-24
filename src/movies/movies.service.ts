@@ -31,10 +31,13 @@ export class MoviesService {
   }
 
   update(movieId: number, movieUpdateDto: MovieUpdateDto): boolean {
-    this.getOne(movieId);
-    this.movies.map((movie) =>
-      movie.id === movieId ? { ...movie, ...movieUpdateDto } : movie,
-    );
+    const updated = { ...this.getOne(movieId), ...movieUpdateDto };
+    this.movies = this.movies.map((movie) => {
+      if (movie.id === movieId) {
+        movie = updated;
+      }
+      return movie;
+    });
     return true;
   }
 
