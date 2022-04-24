@@ -12,6 +12,9 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
+    /* ** IMPORTANT ** */
+    /* 실제 애플리케이션 환경(main.ts)이랑 맞춰주어야 함 */
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -39,6 +42,16 @@ describe('AppController (e2e)', () => {
       return request(app.getHttpServer()).get('/movies/1').expect(404);
     });
 
+    it('/movies (POST : 400)', () => {
+      return request(app.getHttpServer())
+        .post('/movies')
+        .send({
+          year: 2022,
+          genres: ['test'],
+        })
+        .expect(400);
+    });
+
     it('/movies (POST : 201)', () => {
       return request(app.getHttpServer())
         .post('/movies')
@@ -56,11 +69,11 @@ describe('AppController (e2e)', () => {
         .send({
           title: 'test(updated)',
         })
-        .expect(404);
+        .expect(200);
     });
 
     it('/movies/1 (DELETE : 404)', () => {
-      return request(app.getHttpServer()).delete('/movies/1').expect(404);
+      return request(app.getHttpServer()).delete('/movies/1').expect(200);
     });
   });
 });
